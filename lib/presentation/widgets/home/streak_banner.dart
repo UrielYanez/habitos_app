@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
 
-class StreakBanner extends StatelessWidget {
+class StreakBanner extends ConsumerWidget {
   final int streakDays;
   final int pendingCount;
   final int completedCount;
@@ -20,7 +22,7 @@ class StreakBanner extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
@@ -142,6 +144,61 @@ class StreakBanner extends StatelessWidget {
               ],
             ),
           ],
+
+          const SizedBox(height: 12),
+          const Divider(height: 1, color: AppTheme.divider),
+          const SizedBox(height: 10),
+
+          // Sección de Pasos
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: AppTheme.primary.withValues(alpha: 0.1),
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(
+                  Icons.directions_run_rounded,
+                  color: AppTheme.primary,
+                  size: 20,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Actividad Física (Pasos)',
+                    style: textTheme.labelSmall?.copyWith(
+                      color: AppTheme.textSecondary,
+                    ),
+                  ),
+                  ref
+                      .watch(pedometerProvider)
+                      .when(
+                        data: (steps) => Text(
+                          '$steps',
+                          style: textTheme.titleMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        loading: () => const SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        error: (e, _) => Text(
+                          'Permiso denegado o no disponible',
+                          style: textTheme.bodySmall?.copyWith(
+                            color: AppTheme.pending,
+                          ),
+                        ),
+                      ),
+                ],
+              ),
+            ],
+          ),
         ],
       ),
     );
