@@ -10,9 +10,7 @@ Future<void> main() async {
   await Supabase.initialize(
     url: SupabaseConstants.url,
     publishableKey: SupabaseConstants.publishableKey,
-    authOptions: FlutterAuthClientOptions(
-      localStorage: SecureLocalStorage(),
-    ),
+    authOptions: FlutterAuthClientOptions(localStorage: SecureLocalStorage()),
   );
 
   debugPrint('Supabase inicializado: ${Supabase.instance.client.rest.url}');

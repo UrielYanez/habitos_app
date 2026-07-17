@@ -31,7 +31,9 @@ class HabitsNotifier extends StateNotifier<AsyncValue<List<Habit>>> {
 
   Future<void> toggleActive(String habitId) async {
     try {
-      final updated = await _ref.read(habitsRepositoryProvider).toggleActive(habitId);
+      final updated = await _ref
+          .read(habitsRepositoryProvider)
+          .toggleActive(habitId);
       state = state.whenData(
         (list) => list.map((h) => h.id == habitId ? updated : h).toList(),
       );
@@ -39,7 +41,7 @@ class HabitsNotifier extends StateNotifier<AsyncValue<List<Habit>>> {
       state = AsyncValue.error(e, st);
     }
   }
-  
+
   Future<void> createHabit({
     required String name,
     required HabitCategory category,
@@ -62,42 +64,75 @@ class HabitsNotifier extends StateNotifier<AsyncValue<List<Habit>>> {
       state = AsyncValue.error(e, st);
     }
   }
+
+  Future<void> updateProgress(String habitId, double newValue) async {
+    try {
+      final updated = await _ref
+          .read(habitsRepositoryProvider)
+          .updateProgress(habitId, newValue);
+      state = state.whenData(
+        (list) => list.map((h) => h.id == habitId ? updated : h).toList(),
+      );
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
+
+  Future<void> deleteHabit(String habitId) async {
+    try {
+      await _ref.read(habitsRepositoryProvider).deleteHabit(habitId);
+      state = state.whenData(
+        (list) => list.where((h) => h.id != habitId).toList(),
+      );
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+    }
+  }
 }
 
 final habitsProvider =
     StateNotifierProvider<HabitsNotifier, AsyncValue<List<Habit>>>(
-  (ref) => HabitsNotifier(ref),
-);
+      (ref) => HabitsNotifier(ref),
+    );
 
 // ── Providers derivados ────────────────────────────────────────────────────
 final pendingHabitsProvider = Provider<List<Habit>>((ref) {
-  return ref.watch(habitsProvider).maybeWhen(
+  return ref
+      .watch(habitsProvider)
+      .maybeWhen(
         data: (list) => list.where((h) => !h.isCompleted).toList(),
         orElse: () => [],
       );
 });
 
 final completedHabitsProvider = Provider<List<Habit>>((ref) {
-  return ref.watch(habitsProvider).maybeWhen(
+  return ref
+      .watch(habitsProvider)
+      .maybeWhen(
         data: (list) => list.where((h) => h.isCompleted).toList(),
         orElse: () => [],
       );
 });
 
 final activeStreakProvider = Provider<int>((ref) {
-  return ref.watch(habitsProvider).maybeWhen(
+  return ref
+      .watch(habitsProvider)
+      .maybeWhen(
         data: (habits) => habits.isNotEmpty ? habits.first.streakDays : 0,
         orElse: () => 0,
       );
 });
 
 final nextHabitProvider = Provider<Habit?>((ref) {
-  return ref.watch(habitsProvider).maybeWhen(
+  return ref
+      .watch(habitsProvider)
+      .maybeWhen(
         data: (list) {
-          final pending = list
-              .where((h) => !h.isCompleted && h.scheduledTime != null)
-              .toList()
-            ..sort((a, b) => a.scheduledTime!.compareTo(b.scheduledTime!));
+          final pending =
+              list
+                  .where((h) => !h.isCompleted && h.scheduledTime != null)
+                  .toList()
+                ..sort((a, b) => a.scheduledTime!.compareTo(b.scheduledTime!));
           return pending.isNotEmpty ? pending.first : null;
         },
         orElse: () => null,

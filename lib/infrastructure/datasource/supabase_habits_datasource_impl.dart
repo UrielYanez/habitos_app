@@ -26,11 +26,14 @@ class SupabaseHabitsDatasourceImpl implements HabitsDatasource {
       (r) => (r['last_reset_date'] as String?) != today,
     );
     for (final row in toReset) {
-      await _client.from('habits').update({
-        'current_value': 0,
-        'is_active': false,
-        'last_reset_date': today,
-      }).eq('id', row['id'] as String);
+      await _client
+          .from('habits')
+          .update({
+            'current_value': 0,
+            'is_active': false,
+            'last_reset_date': today,
+          })
+          .eq('id', row['id'] as String);
     }
 
     return habits;
@@ -43,10 +46,7 @@ class SupabaseHabitsDatasourceImpl implements HabitsDatasource {
   Future<Habit> updateProgress(String habitId, double newValue) async {
     final row = await _client
         .from('habits')
-        .update({
-          'current_value': newValue,
-          'last_reset_date': _todayStr(),
-        })
+        .update({'current_value': newValue, 'last_reset_date': _todayStr()})
         .eq('id', habitId)
         .eq('user_id', _userId)
         .select()

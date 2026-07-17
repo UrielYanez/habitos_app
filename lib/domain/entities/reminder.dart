@@ -1,13 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum ReminderCategory {
-  habit,
-  exercise,
-  hydration,
-  rest,
-  productivity,
-  other,
-}
+enum ReminderCategory { habit, exercise, hydration, rest, productivity, other }
 
 class Reminder {
   final String id;

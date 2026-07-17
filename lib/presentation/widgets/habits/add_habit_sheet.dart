@@ -12,30 +12,46 @@ class AddHabitSheet extends ConsumerStatefulWidget {
 }
 
 class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
-  final _nameCtrl      = TextEditingController();
-  final _goalCtrl      = TextEditingController();
-  bool  _isSaving      = false;
+  final _nameCtrl = TextEditingController();
+  final _goalCtrl = TextEditingController();
+  bool _isSaving = false;
   TimeOfDay? _time;
 
   HabitCategory _category = HabitCategory.physical;
-  HabitUnit     _unit     = HabitUnit.minutes;
+  HabitUnit _unit = HabitUnit.minutes;
 
   // ── Opciones de categoría ─────────────────────────────────────────────────
   static const _categories = [
-    (value: HabitCategory.cognitive,    label: 'Cognitivo',      icon: Icons.menu_book_rounded),
-    (value: HabitCategory.physical,     label: 'Físico',         icon: Icons.fitness_center_rounded),
-    (value: HabitCategory.hydration,    label: 'Hidratación',    icon: Icons.water_drop_rounded),
-    (value: HabitCategory.productivity, label: 'Productividad',  icon: Icons.school_rounded),
-    (value: HabitCategory.rest,         label: 'Descanso',       icon: Icons.bedtime_rounded),
+    (
+      value: HabitCategory.cognitive,
+      label: 'Cognitivo',
+      icon: Icons.menu_book_rounded,
+    ),
+    (
+      value: HabitCategory.physical,
+      label: 'Físico',
+      icon: Icons.fitness_center_rounded,
+    ),
+    (
+      value: HabitCategory.hydration,
+      label: 'Hidratación',
+      icon: Icons.water_drop_rounded,
+    ),
+    (
+      value: HabitCategory.productivity,
+      label: 'Productividad',
+      icon: Icons.school_rounded,
+    ),
+    (value: HabitCategory.rest, label: 'Descanso', icon: Icons.bedtime_rounded),
   ];
 
   // ── Opciones de unidad ────────────────────────────────────────────────────
   static const _units = [
     (value: HabitUnit.minutes, label: 'Minutos'),
-    (value: HabitUnit.km,      label: 'Kilómetros'),
-    (value: HabitUnit.liters,  label: 'Litros'),
-    (value: HabitUnit.steps,   label: 'Pasos'),
-    (value: HabitUnit.times,   label: 'Veces'),
+    (value: HabitUnit.km, label: 'Kilómetros'),
+    (value: HabitUnit.liters, label: 'Litros'),
+    (value: HabitUnit.steps, label: 'Pasos'),
+    (value: HabitUnit.times, label: 'Veces'),
   ];
 
   @override
@@ -78,14 +94,19 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
     if (_time != null) {
       final now = DateTime.now();
       scheduledTime = DateTime(
-        now.year, now.month, now.day,
-        _time!.hour, _time!.minute,
+        now.year,
+        now.month,
+        now.day,
+        _time!.hour,
+        _time!.minute,
       );
     }
 
     setState(() => _isSaving = true);
 
-    await ref.read(habitsProvider.notifier).createHabit(
+    await ref
+        .read(habitsProvider.notifier)
+        .createHabit(
           name: name,
           category: _category,
           goalValue: goalValue,
@@ -123,7 +144,9 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.viewInsetsOf(context).bottom + 16,
-        left: 20, right: 20, top: 4,
+        left: 20,
+        right: 20,
+        top: 4,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -133,7 +156,8 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
           Center(
             child: Container(
               margin: const EdgeInsets.only(top: 12, bottom: 16),
-              width: 40, height: 4,
+              width: 40,
+              height: 4,
               decoration: BoxDecoration(
                 color: AppTheme.divider,
                 borderRadius: BorderRadius.circular(2),
@@ -177,17 +201,14 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
                     duration: const Duration(milliseconds: 150),
                     margin: const EdgeInsets.only(right: 10),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 14, vertical: 10,
+                      horizontal: 14,
+                      vertical: 10,
                     ),
                     decoration: BoxDecoration(
-                      color: selected
-                          ? AppTheme.primary
-                          : AppTheme.surface,
+                      color: selected ? AppTheme.primary : AppTheme.surface,
                       borderRadius: BorderRadius.circular(14),
                       border: Border.all(
-                        color: selected
-                            ? AppTheme.primary
-                            : AppTheme.divider,
+                        color: selected ? AppTheme.primary : AppTheme.divider,
                         width: selected ? 0 : 1,
                       ),
                       boxShadow: selected
@@ -196,7 +217,7 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
                                 color: AppTheme.primary.withValues(alpha: 0.25),
                                 blurRadius: 8,
                                 offset: const Offset(0, 3),
-                              )
+                              ),
                             ]
                           : [],
                     ),
@@ -272,10 +293,12 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
                             color: AppTheme.textPrimary,
                           ),
                           items: _units
-                              .map((u) => DropdownMenuItem(
-                                    value: u.value,
-                                    child: Text(u.label),
-                                  ))
+                              .map(
+                                (u) => DropdownMenuItem(
+                                  value: u.value,
+                                  child: Text(u.label),
+                                ),
+                              )
                               .toList(),
                           onChanged: (u) {
                             if (u != null) setState(() => _unit = u);
@@ -297,9 +320,7 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
           GestureDetector(
             onTap: _pickTime,
             child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 14, vertical: 14,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
               decoration: BoxDecoration(
                 color: AppTheme.surface,
                 borderRadius: BorderRadius.circular(12),
@@ -384,7 +405,8 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
                   ),
                   child: _isSaving
                       ? const SizedBox(
-                          width: 20, height: 20,
+                          width: 20,
+                          height: 20,
                           child: CircularProgressIndicator(
                             strokeWidth: 2.5,
                             color: Colors.white,
@@ -392,9 +414,7 @@ class _AddHabitSheetState extends ConsumerState<AddHabitSheet> {
                         )
                       : const Text(
                           'Guardar hábito',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: TextStyle(fontWeight: FontWeight.w600),
                         ),
                 ),
               ),
@@ -458,11 +478,11 @@ class _Field extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
-          borderSide:
-              const BorderSide(color: AppTheme.primary, width: 1.5),
+          borderSide: const BorderSide(color: AppTheme.primary, width: 1.5),
         ),
         contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14, vertical: 13,
+          horizontal: 14,
+          vertical: 13,
         ),
       ),
     );

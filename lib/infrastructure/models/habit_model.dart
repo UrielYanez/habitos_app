@@ -22,26 +22,26 @@ class HabitModel {
   });
 
   factory HabitModel.fromJson(Map<String, dynamic> json) => HabitModel(
-        id: json['id'] as String,
-        name: json['name'] as String,
-        category: json['category'] as String,
-        goalValue: (json['goalValue'] as num).toDouble(),
-        unit: json['unit'] as String,
-        currentValue: (json['currentValue'] as num? ?? 0).toDouble(),
-        isActive: json['isActive'] as bool? ?? false,
-        streakDays: json['streakDays'] as int? ?? 0,
-        scheduledTime: json['scheduledTime'] as String?,
-      );
+    id: json['id'] as String,
+    name: json['name'] as String,
+    category: json['category'] as String,
+    goalValue: (json['goalValue'] as num).toDouble(),
+    unit: json['unit'] as String,
+    currentValue: (json['currentValue'] as num? ?? 0).toDouble(),
+    isActive: json['isActive'] as bool? ?? false,
+    streakDays: json['streakDays'] as int? ?? 0,
+    scheduledTime: json['scheduledTime'] as String?,
+  );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'category': category,
-        'goalValue': goalValue,
-        'unit': unit,
-        'currentValue': currentValue,
-        'isActive': isActive,
-        'streakDays': streakDays,
-        'scheduledTime': scheduledTime,
-      };
+    'id': id,
+    'name': name,
+    'category': category,
+    'goalValue': goalValue,
+    'unit': unit,
+    'currentValue': currentValue,
+    'isActive': isActive,
+    'streakDays': streakDays,
+    'scheduledTime': scheduledTime,
+  };
 }

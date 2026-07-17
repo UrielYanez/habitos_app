@@ -23,7 +23,8 @@ class SupabaseRemindersDatasourceImpl implements RemindersDatasource {
 
   @override
   Future<List<Reminder>> getByDate(DateTime date) async {
-    final dateStr = '${date.year}-'
+    final dateStr =
+        '${date.year}-'
         '${date.month.toString().padLeft(2, '0')}-'
         '${date.day.toString().padLeft(2, '0')}';
 
@@ -40,11 +41,7 @@ class SupabaseRemindersDatasourceImpl implements RemindersDatasource {
   @override
   Future<Reminder> create(Reminder reminder) async {
     final data = ReminderMapper.toSupabase(reminder, _userId);
-    final row = await _client
-        .from('reminders')
-        .insert(data)
-        .select()
-        .single();
+    final row = await _client.from('reminders').insert(data).select().single();
 
     return ReminderMapper.fromSupabase(row);
   }

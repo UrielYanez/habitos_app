@@ -4,7 +4,6 @@ import 'package:vita_habit/presentation/views/home/home_view.dart';
 import 'package:vita_habit/presentation/widgets/shared/bottom_nav_bar.dart';
 import 'package:vita_habit/presentation/widgets/habits/add_habit_sheet.dart';
 
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 

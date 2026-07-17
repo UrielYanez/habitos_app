@@ -35,7 +35,11 @@ class ProfileScreen extends ConsumerWidget {
     );
   }
 
-  void _openEditProfile(BuildContext context, WidgetRef ref, UserProfile? profile) {
+  void _openEditProfile(
+    BuildContext context,
+    WidgetRef ref,
+    UserProfile? profile,
+  ) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -46,10 +50,9 @@ class ProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileProvider).maybeWhen(
-      data: (p) => p,
-      orElse: () => null,
-    );
+    final profile = ref
+        .watch(profileProvider)
+        .maybeWhen(data: (p) => p, orElse: () => null);
 
     return Scaffold(
       backgroundColor: AppTheme.background,
@@ -71,19 +74,23 @@ class ProfileScreen extends ConsumerWidget {
             itemBuilder: (_) => [
               const PopupMenuItem(
                 value: 'edit',
-                child: Row(children: [
-                  Icon(Icons.edit_outlined, size: 18),
-                  SizedBox(width: 10),
-                  Text('Editar perfil'),
-                ]),
+                child: Row(
+                  children: [
+                    Icon(Icons.edit_outlined, size: 18),
+                    SizedBox(width: 10),
+                    Text('Editar perfil'),
+                  ],
+                ),
               ),
               const PopupMenuItem(
                 value: 'logout',
-                child: Row(children: [
-                  Icon(Icons.logout_rounded, size: 18, color: Colors.red),
-                  SizedBox(width: 10),
-                  Text('Cerrar sesión', style: TextStyle(color: Colors.red)),
-                ]),
+                child: Row(
+                  children: [
+                    Icon(Icons.logout_rounded, size: 18, color: Colors.red),
+                    SizedBox(width: 10),
+                    Text('Cerrar sesión', style: TextStyle(color: Colors.red)),
+                  ],
+                ),
               ),
             ],
           ),
@@ -115,41 +122,44 @@ class _EditProfileSheetState extends ConsumerState<_EditProfileSheet> {
   @override
   void initState() {
     super.initState();
-    _nameCtrl   = TextEditingController(text: widget.profile?.name ?? '');
+    _nameCtrl = TextEditingController(text: widget.profile?.name ?? '');
     _heightCtrl = TextEditingController(
-        text: widget.profile?.heightCm.toStringAsFixed(0) ?? '');
+      text: widget.profile?.heightCm.toStringAsFixed(0) ?? '',
+    );
     _weightCtrl = TextEditingController(
-        text: widget.profile?.weightKg.toStringAsFixed(0) ?? '');
-    _ageCtrl    = TextEditingController(
-        text: widget.profile?.ageYears.toString() ?? '');
+      text: widget.profile?.weightKg.toStringAsFixed(0) ?? '',
+    );
+    _ageCtrl = TextEditingController(
+      text: widget.profile?.ageYears.toString() ?? '',
+    );
   }
 
   @override
   void dispose() {
-    _nameCtrl.dispose(); _heightCtrl.dispose();
-    _weightCtrl.dispose(); _ageCtrl.dispose();
+    _nameCtrl.dispose();
+    _heightCtrl.dispose();
+    _weightCtrl.dispose();
+    _ageCtrl.dispose();
     super.dispose();
   }
 
   Future<void> _save() async {
-    final name   = _nameCtrl.text.trim();
+    final name = _nameCtrl.text.trim();
     final height = double.tryParse(_heightCtrl.text.trim());
     final weight = double.tryParse(_weightCtrl.text.trim());
-    final age    = int.tryParse(_ageCtrl.text.trim());
+    final age = int.tryParse(_ageCtrl.text.trim());
 
     if (name.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-          content: Text('El nombre no puede estar vacío')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('El nombre no puede estar vacío')),
+      );
       return;
     }
 
     setState(() => _isSaving = true);
-    await ref.read(profileProvider.notifier).update(
-      name: name,
-      heightCm: height,
-      weightKg: weight,
-      ageYears: age,
-    );
+    await ref
+        .read(profileProvider.notifier)
+        .update(name: name, heightCm: height, weightKg: weight, ageYears: age);
     if (mounted) Navigator.of(context).pop();
   }
 
@@ -162,89 +172,155 @@ class _EditProfileSheetState extends ConsumerState<_EditProfileSheet> {
       ),
       padding: EdgeInsets.only(
         bottom: MediaQuery.viewInsetsOf(context).bottom + 16,
-        left: 20, right: 20, top: 4,
+        left: 20,
+        right: 20,
+        top: 4,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Center(child: Container(
-            margin: const EdgeInsets.only(top: 12, bottom: 16),
-            width: 40, height: 4,
-            decoration: BoxDecoration(color: AppTheme.divider,
-                borderRadius: BorderRadius.circular(2)),
-          )),
-          const Text('Editar perfil',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
-                  color: AppTheme.textPrimary)),
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(top: 12, bottom: 16),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppTheme.divider,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const Text(
+            'Editar perfil',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: AppTheme.textPrimary,
+            ),
+          ),
           const SizedBox(height: 20),
 
           _buildField('Nombre', _nameCtrl, TextInputType.name),
           const SizedBox(height: 12),
-          Row(children: [
-            Expanded(child: _buildField('Altura (cm)', _heightCtrl,
-                TextInputType.number)),
-            const SizedBox(width: 12),
-            Expanded(child: _buildField('Peso (kg)', _weightCtrl,
-                TextInputType.number)),
-          ]),
+          Row(
+            children: [
+              Expanded(
+                child: _buildField(
+                  'Altura (cm)',
+                  _heightCtrl,
+                  TextInputType.number,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: _buildField(
+                  'Peso (kg)',
+                  _weightCtrl,
+                  TextInputType.number,
+                ),
+              ),
+            ],
+          ),
           const SizedBox(height: 12),
           _buildField('Edad', _ageCtrl, TextInputType.number),
           const SizedBox(height: 24),
 
-          Row(children: [
-            Expanded(child: OutlinedButton(
-              onPressed: _isSaving ? null : () => Navigator.of(context).pop(),
-              style: OutlinedButton.styleFrom(
-                side: const BorderSide(color: AppTheme.divider),
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton(
+                  onPressed: _isSaving
+                      ? null
+                      : () => Navigator.of(context).pop(),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: AppTheme.divider),
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text(
+                    'Cancelar',
+                    style: TextStyle(color: AppTheme.textSecondary),
+                  ),
+                ),
               ),
-              child: const Text('Cancelar',
-                  style: TextStyle(color: AppTheme.textSecondary)),
-            )),
-            const SizedBox(width: 12),
-            Expanded(child: FilledButton(
-              onPressed: _isSaving ? null : _save,
-              style: FilledButton.styleFrom(
-                backgroundColor: AppTheme.primary,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
+              const SizedBox(width: 12),
+              Expanded(
+                child: FilledButton(
+                  onPressed: _isSaving ? null : _save,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppTheme.primary,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: _isSaving
+                      ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text(
+                          'Guardar',
+                          style: TextStyle(fontWeight: FontWeight.w600),
+                        ),
+                ),
               ),
-              child: _isSaving
-                  ? const SizedBox(width: 20, height: 20,
-                      child: CircularProgressIndicator(strokeWidth: 2.5,
-                          color: Colors.white))
-                  : const Text('Guardar',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-            )),
-          ]),
+            ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildField(String label, TextEditingController ctrl,
-      TextInputType keyboard) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(label, style: const TextStyle(fontSize: 13,
-          fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
-      const SizedBox(height: 6),
-      TextField(
-        controller: ctrl, keyboardType: keyboard,
-        decoration: InputDecoration(
-          filled: true, fillColor: AppTheme.surface,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppTheme.divider)),
-          enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppTheme.divider)),
-          focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: AppTheme.primary, width: 1.5)),
-          contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+  Widget _buildField(
+    String label,
+    TextEditingController ctrl,
+    TextInputType keyboard,
+  ) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w600,
+            color: AppTheme.textSecondary,
+          ),
         ),
-      ),
-    ]);
+        const SizedBox(height: 6),
+        TextField(
+          controller: ctrl,
+          keyboardType: keyboard,
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: AppTheme.surface,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.divider),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.divider),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: const BorderSide(color: AppTheme.primary, width: 1.5),
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 13,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

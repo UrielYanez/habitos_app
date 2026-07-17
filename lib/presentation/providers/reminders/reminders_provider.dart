@@ -44,9 +44,7 @@ class RemindersNotifier extends StateNotifier<AsyncValue<List<Reminder>>> {
     try {
       final repo = _ref.read(remindersRepositoryProvider);
       await repo.delete(id);
-      state = state.whenData(
-        (list) => list.where((r) => r.id != id).toList(),
-      );
+      state = state.whenData((list) => list.where((r) => r.id != id).toList());
     } catch (e, st) {
       state = AsyncValue.error(e, st);
     }
@@ -55,19 +53,23 @@ class RemindersNotifier extends StateNotifier<AsyncValue<List<Reminder>>> {
   // ── Métodos síncronos sobre el estado en memoria ─────────────────────────
   List<Reminder> forDay(DateTime day) {
     return state.maybeWhen(
-      data: (list) => list
-          .where((r) =>
-              r.date.year == day.year &&
-              r.date.month == day.month &&
-              r.date.day == day.day)
-          .toList()
-        ..sort((a, b) {
-          if (a.time == null && b.time == null) return 0;
-          if (a.time == null) return 1;
-          if (b.time == null) return -1;
-          return (a.time!.hour * 60 + a.time!.minute)
-              .compareTo(b.time!.hour * 60 + b.time!.minute);
-        }),
+      data: (list) =>
+          list
+              .where(
+                (r) =>
+                    r.date.year == day.year &&
+                    r.date.month == day.month &&
+                    r.date.day == day.day,
+              )
+              .toList()
+            ..sort((a, b) {
+              if (a.time == null && b.time == null) return 0;
+              if (a.time == null) return 1;
+              if (b.time == null) return -1;
+              return (a.time!.hour * 60 + a.time!.minute).compareTo(
+                b.time!.hour * 60 + b.time!.minute,
+              );
+            }),
       orElse: () => [],
     );
   }
@@ -85,5 +87,5 @@ class RemindersNotifier extends StateNotifier<AsyncValue<List<Reminder>>> {
 
 final remindersProvider =
     StateNotifierProvider<RemindersNotifier, AsyncValue<List<Reminder>>>(
-  (ref) => RemindersNotifier(ref),
-);
+      (ref) => RemindersNotifier(ref),
+    );

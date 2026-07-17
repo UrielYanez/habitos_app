@@ -5,7 +5,6 @@ import 'package:vita_habit/config/config.dart';
 import 'package:vita_habit/presentation/providers/providers.dart';
 import 'package:vita_habit/presentation/widgets/widgets.dart';
 
-
 class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
@@ -24,7 +23,6 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final streak = ref.watch(activeStreakProvider);
     final nextHabit = ref.watch(nextHabitProvider);
     final textTheme = Theme.of(context).textTheme;
-
 
     return RefreshIndicator(
       onRefresh: () async => ref.read(habitsProvider.notifier).loadHabits(),
@@ -75,9 +73,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                   children: [
                     Text('Tus Actividades', style: textTheme.titleLarge),
                     TextButton(
-                      onPressed: () => context.go(
-                        '${AppConstants.homeRoute}/statistics',
-                      ),
+                      onPressed: () =>
+                          context.go('${AppConstants.homeRoute}/statistics'),
                       child: const Text('Ver todo'),
                     ),
                   ],
@@ -103,19 +100,26 @@ class _HomeViewState extends ConsumerState<HomeView> {
                     children: habits
                         .take(5)
                         .map(
-                            (h) => ActivityCard(
-                              habit: h,
-                              onToggle: () => ref
-                                  .read(habitsProvider.notifier)
-                                  .toggleActive(h.id),
-                              onTap: () => showModalBottomSheet( // ← AGREGAR
-                                context: context,
-                                isScrollControlled: true,
-                                backgroundColor: Colors.transparent,
-                                builder: (_) => EditHabitSheet(habit: h),
-                              ),
+                          (h) => ActivityCard(
+                            habit: h,
+                            onToggle: () => ref
+                                .read(habitsProvider.notifier)
+                                .toggleActive(h.id),
+                            onDelete: () => ref
+                                .read(habitsProvider.notifier)
+                                .deleteHabit(h.id),
+                            onTap: () => showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              builder: (_) => EditHabitSheet(habit: h),
                             ),
-                          )
+                            onAddProgress: () => showDialog(
+                              context: context,
+                              builder: (_) => AddProgressDialog(habit: h),
+                            ),
+                          ),
+                        )
                         .toList(),
                   ),
                 ),
@@ -131,13 +135,14 @@ class _HomeViewState extends ConsumerState<HomeView> {
 }
 
 // ── AppBar personalizado ─────────────────────────────────────────────────────
-class _HomeAppBar extends ConsumerWidget { // ← cambiar StatelessWidget por ConsumerWidget
+class _HomeAppBar extends ConsumerWidget {
+  // ← cambiar StatelessWidget por ConsumerWidget
   @override
-  Widget build(BuildContext context, WidgetRef ref) { // ← agregar WidgetRef ref
-    final name = ref.watch(profileProvider).maybeWhen(
-      data: (p) => p?.name ?? 'Usuario',
-      orElse: () => 'Usuario',
-    );
+  Widget build(BuildContext context, WidgetRef ref) {
+    // ← agregar WidgetRef ref
+    final name = ref
+        .watch(profileProvider)
+        .maybeWhen(data: (p) => p?.name ?? 'Usuario', orElse: () => 'Usuario');
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
@@ -203,10 +208,7 @@ class _DateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final days = List.generate(
-      31,
-      (i) => DateTime(now.year, now.month, i + 1),
-    );
+    final days = List.generate(31, (i) => DateTime(now.year, now.month, i + 1));
 
     return SizedBox(
       height: 72,
@@ -218,8 +220,7 @@ class _DateSelector extends StatelessWidget {
           final day = days[index];
           final isSelected =
               day.day == selectedDate.day && day.month == selectedDate.month;
-          final isToday =
-              day.day == now.day && day.month == now.month;
+          final isToday = day.day == now.day && day.month == now.month;
 
           return GestureDetector(
             onTap: () => onDateSelected(day),
@@ -231,8 +232,8 @@ class _DateSelector extends StatelessWidget {
                 color: isSelected
                     ? AppTheme.primary
                     : isToday
-                        ? AppTheme.primary.withValues(alpha: 0.12)
-                        : Colors.transparent,
+                    ? AppTheme.primary.withValues(alpha: 0.12)
+                    : Colors.transparent,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -242,9 +243,7 @@ class _DateSelector extends StatelessWidget {
                     _dayLetter(day.weekday),
                     style: TextStyle(
                       fontSize: 11,
-                      color: isSelected
-                          ? Colors.white
-                          : AppTheme.textSecondary,
+                      color: isSelected ? Colors.white : AppTheme.textSecondary,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
@@ -257,8 +256,8 @@ class _DateSelector extends StatelessWidget {
                       color: isSelected
                           ? Colors.white
                           : isToday
-                              ? AppTheme.primary
-                              : AppTheme.textPrimary,
+                          ? AppTheme.primary
+                          : AppTheme.textPrimary,
                     ),
                   ),
                 ],

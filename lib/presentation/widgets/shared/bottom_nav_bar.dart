@@ -8,9 +8,21 @@ class CustomBottomNavBar extends StatelessWidget {
 
   static const _items = [
     (icon: Icons.home_rounded, label: 'Home', route: AppConstants.homeRoute),
-    (icon: Icons.repeat_rounded, label: 'Hábitos', route: AppConstants.habitsRoute),
-    (icon: Icons.calendar_month_rounded, label: 'Calendario', route: AppConstants.calendarRoute),
-    (icon: Icons.person_rounded, label: 'Perfil', route: AppConstants.profileRoute),
+    (
+      icon: Icons.repeat_rounded,
+      label: 'Hábitos',
+      route: AppConstants.habitsRoute,
+    ),
+    (
+      icon: Icons.calendar_month_rounded,
+      label: 'Calendario',
+      route: AppConstants.calendarRoute,
+    ),
+    (
+      icon: Icons.person_rounded,
+      label: 'Perfil',
+      route: AppConstants.profileRoute,
+    ),
   ];
 
   @override
@@ -22,10 +34,8 @@ class CustomBottomNavBar extends StatelessWidget {
       },
       destinations: _items
           .map(
-            (item) => NavigationDestination(
-              icon: Icon(item.icon),
-              label: item.label,
-            ),
+            (item) =>
+                NavigationDestination(icon: Icon(item.icon), label: item.label),
           )
           .toList(),
     );

@@ -152,7 +152,7 @@ class ActivityStatisticsScreen extends ConsumerWidget {
               error: (e, _) => Text('Error: $e'),
               data: (habits) => Column(
                 children: habits
-                    .take(10)   // ← máximo 10
+                    .take(10) // ← máximo 10
                     .map(
                       (h) => ActivityCard(
                         habit: h,

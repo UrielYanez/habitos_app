@@ -15,7 +15,10 @@ class ProfileNotifier extends StateNotifier<AsyncValue<UserProfile?>> {
     state = const AsyncValue.loading();
     try {
       final user = _client.auth.currentUser;
-      if (user == null) { state = const AsyncValue.data(null); return; }
+      if (user == null) {
+        state = const AsyncValue.data(null);
+        return;
+      }
 
       final row = await _client
           .from('profiles')
@@ -23,15 +26,17 @@ class ProfileNotifier extends StateNotifier<AsyncValue<UserProfile?>> {
           .eq('id', user.id)
           .single();
 
-      state = AsyncValue.data(UserProfile(
-        id: row['id'] as String,
-        name: row['name'] as String? ?? 'Usuario',
-        joinedAt: DateTime.parse(row['created_at'] as String),
-        heightCm: (row['height_cm'] as num?)?.toDouble() ?? 170,
-        weightKg: (row['weight_kg'] as num?)?.toDouble() ?? 70,
-        ageYears: row['age_years'] as int? ?? 25,
-        globalStreakDays: row['global_streak_days'] as int? ?? 0,
-      ));
+      state = AsyncValue.data(
+        UserProfile(
+          id: row['id'] as String,
+          name: row['name'] as String? ?? 'Usuario',
+          joinedAt: DateTime.parse(row['created_at'] as String),
+          heightCm: (row['height_cm'] as num?)?.toDouble() ?? 170,
+          weightKg: (row['weight_kg'] as num?)?.toDouble() ?? 70,
+          ageYears: row['age_years'] as int? ?? 25,
+          globalStreakDays: row['global_streak_days'] as int? ?? 0,
+        ),
+      );
     } catch (e, st) {
       state = AsyncValue.error(e, st);
     }
@@ -59,5 +64,5 @@ class ProfileNotifier extends StateNotifier<AsyncValue<UserProfile?>> {
 
 final profileProvider =
     StateNotifierProvider<ProfileNotifier, AsyncValue<UserProfile?>>((ref) {
-  return ProfileNotifier(ref.watch(supabaseClientProvider));
-});
+      return ProfileNotifier(ref.watch(supabaseClientProvider));
+    });

@@ -73,5 +73,5 @@ class AuthNotifier extends StateNotifier<AsyncValue<void>> {
 
 final authNotifierProvider =
     StateNotifierProvider<AuthNotifier, AsyncValue<void>>((ref) {
-  return AuthNotifier(ref.watch(supabaseClientProvider));
-});
+      return AuthNotifier(ref.watch(supabaseClientProvider));
+    });

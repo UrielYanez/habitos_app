@@ -31,8 +31,10 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
     final firstDay = DateTime(_focusedMonth.year, _focusedMonth.month, 1);
     // weekday: 1=lunes … 7=domingo → necesitamos offset 0-based
     final offset = (firstDay.weekday - 1) % 7;
-    final daysInMonth =
-        DateUtils.getDaysInMonth(_focusedMonth.year, _focusedMonth.month);
+    final daysInMonth = DateUtils.getDaysInMonth(
+      _focusedMonth.year,
+      _focusedMonth.month,
+    );
 
     final cells = <DateTime?>[];
     for (int i = 0; i < offset; i++) {
@@ -50,9 +52,7 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
 
   bool _isToday(DateTime day) {
     final now = DateTime.now();
-    return day.year == now.year &&
-        day.month == now.month &&
-        day.day == now.day;
+    return day.year == now.year && day.month == now.month && day.day == now.day;
   }
 
   bool _isSelected(DateTime day) {
@@ -64,23 +64,31 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
 
   String _monthLabel() {
     const months = [
-      'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-      'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre',
     ];
     return '${months[_focusedMonth.month - 1]} ${_focusedMonth.year}';
   }
 
   void _previousMonth() {
     setState(() {
-      _focusedMonth =
-          DateTime(_focusedMonth.year, _focusedMonth.month - 1);
+      _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month - 1);
     });
   }
 
   void _nextMonth() {
     setState(() {
-      _focusedMonth =
-          DateTime(_focusedMonth.year, _focusedMonth.month + 1);
+      _focusedMonth = DateTime(_focusedMonth.year, _focusedMonth.month + 1);
     });
   }
 
@@ -104,10 +112,9 @@ class _CalendarViewState extends ConsumerState<CalendarView> {
 
   @override
   Widget build(BuildContext context) {
-    final reminderList = ref.watch(remindersProvider).maybeWhen(
-      data: (list) => list,
-      orElse: () => <Reminder>[],
-    );
+    final reminderList = ref
+        .watch(remindersProvider)
+        .maybeWhen(data: (list) => list, orElse: () => <Reminder>[]);
     final notifier = ref.read(remindersProvider.notifier);
     final markedDays = notifier.daysWithReminders(
       _focusedMonth.year,
@@ -314,9 +321,7 @@ class _DayCell extends StatelessWidget {
                 height: 5,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: isSelected || isToday
-                      ? Colors.white
-                      : AppTheme.streak,
+                  color: isSelected || isToday ? Colors.white : AppTheme.streak,
                 ),
               ),
             ],
@@ -336,10 +341,7 @@ class _Legend extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          _LegendItem(
-            color: AppTheme.primary,
-            label: 'Hoy',
-          ),
+          _LegendItem(color: AppTheme.primary, label: 'Hoy'),
           const SizedBox(width: 16),
           _LegendItem(
             color: AppTheme.primary.withValues(alpha: 0.15),
@@ -389,10 +391,7 @@ class _LegendItem extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           label,
-          style: const TextStyle(
-            fontSize: 11,
-            color: AppTheme.textSecondary,
-          ),
+          style: const TextStyle(fontSize: 11, color: AppTheme.textSecondary),
         ),
       ],
     );
@@ -405,19 +404,16 @@ class _UpcomingReminders extends StatelessWidget {
   final List<Reminder> reminders;
   final void Function(String id) onDelete;
 
-  const _UpcomingReminders({
-    required this.reminders,
-    required this.onDelete,
-  });
+  const _UpcomingReminders({required this.reminders, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final upcoming = reminders
-        .where((r) =>
-            r.date.isAfter(now.subtract(const Duration(days: 1))))
-        .toList()
-      ..sort((a, b) => a.date.compareTo(b.date));
+    final upcoming =
+        reminders
+            .where((r) => r.date.isAfter(now.subtract(const Duration(days: 1))))
+            .toList()
+          ..sort((a, b) => a.date.compareTo(b.date));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -492,7 +488,8 @@ class _ReminderTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    final isToday = reminder.date.year == now.year &&
+    final isToday =
+        reminder.date.year == now.year &&
         reminder.date.month == now.month &&
         reminder.date.day == now.day;
 
@@ -547,7 +544,9 @@ class _ReminderTile extends StatelessWidget {
                     Icon(
                       Icons.calendar_today_rounded,
                       size: 11,
-                      color: isToday ? AppTheme.primary : AppTheme.textSecondary,
+                      color: isToday
+                          ? AppTheme.primary
+                          : AppTheme.textSecondary,
                     ),
                     const SizedBox(width: 3),
                     Text(
@@ -587,7 +586,9 @@ class _ReminderTile extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: _categoryColor(reminder.category).withValues(alpha: 0.1),
+                  color: _categoryColor(
+                    reminder.category,
+                  ).withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(6),
                 ),
                 child: Text(
@@ -617,8 +618,18 @@ class _ReminderTile extends StatelessWidget {
 
   String _dateLabel(DateTime d) {
     const months = [
-      'Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun',
-      'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic',
     ];
     return '${d.day} ${months[d.month - 1]}';
   }
@@ -672,9 +683,7 @@ class _DayBottomSheetState extends ConsumerState<_DayBottomSheet> {
         color: AppTheme.background,
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.viewInsetsOf(context).bottom,
-      ),
+      padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -760,7 +769,7 @@ class _DayBottomSheetState extends ConsumerState<_DayBottomSheet> {
           if (_showForm)
             _ReminderForm(
               day: widget.day,
-              editing: _editingReminder,  // ← AGREGAR
+              editing: _editingReminder, // ← AGREGAR
               onSave: (r) async {
                 final notifier = ref.read(remindersProvider.notifier);
                 if (_editingReminder != null) {
@@ -768,10 +777,14 @@ class _DayBottomSheetState extends ConsumerState<_DayBottomSheet> {
                   await notifier.removeReminder(_editingReminder!.id);
                 }
                 await notifier.addReminder(r);
-                setState(() { _showForm = false; _editingReminder = null; });
+                setState(() {
+                  _showForm = false;
+                  _editingReminder = null;
+                });
               },
               onCancel: () => setState(() {
-                _showForm = false; _editingReminder = null;
+                _showForm = false;
+                _editingReminder = null;
               }),
             ),
 
@@ -812,7 +825,8 @@ class _DayBottomSheetState extends ConsumerState<_DayBottomSheet> {
                 itemBuilder: (context, i) => _SheetReminderTile(
                   reminder: reminders[i],
                   onDelete: () {
-                    ref.read(remindersProvider.notifier)
+                    ref
+                        .read(remindersProvider.notifier)
                         .removeReminder(reminders[i].id);
                   },
                   onEdit: () {
@@ -833,19 +847,32 @@ class _DayBottomSheetState extends ConsumerState<_DayBottomSheet> {
 
   bool _isToday(DateTime day) {
     final now = DateTime.now();
-    return day.year == now.year &&
-        day.month == now.month &&
-        day.day == now.day;
+    return day.year == now.year && day.month == now.month && day.day == now.day;
   }
 
   String _fullDateLabel(DateTime d) {
     const days = [
-      'Lunes', 'Martes', 'Miércoles', 'Jueves',
-      'Viernes', 'Sábado', 'Domingo'
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo',
     ];
     const months = [
-      'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-      'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+      'enero',
+      'febrero',
+      'marzo',
+      'abril',
+      'mayo',
+      'junio',
+      'julio',
+      'agosto',
+      'septiembre',
+      'octubre',
+      'noviembre',
+      'diciembre',
     ];
     return '${days[d.weekday - 1]} ${d.day} de ${months[d.month - 1]}';
   }
@@ -861,7 +888,7 @@ class _SheetReminderTile extends StatelessWidget {
   const _SheetReminderTile({
     required this.reminder,
     required this.onDelete,
-    required this.onEdit
+    required this.onEdit,
   });
 
   @override
@@ -921,19 +948,27 @@ class _SheetReminderTile extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
-          Column(children: [
-            GestureDetector(
-              onTap: onEdit, // ← callback nuevo
-              child: const Icon(Icons.edit_outlined, size: 16,
-                  color: AppTheme.primary),
-            ),
-            const SizedBox(height: 4),
-            GestureDetector(
-              onTap: onDelete,
-              child: const Icon(Icons.close_rounded, size: 16,
-                  color: AppTheme.textSecondary),
-            ),
-          ]),
+          Column(
+            children: [
+              GestureDetector(
+                onTap: onEdit, // ← callback nuevo
+                child: const Icon(
+                  Icons.edit_outlined,
+                  size: 16,
+                  color: AppTheme.primary,
+                ),
+              ),
+              const SizedBox(height: 4),
+              GestureDetector(
+                onTap: onDelete,
+                child: const Icon(
+                  Icons.close_rounded,
+                  size: 16,
+                  color: AppTheme.textSecondary,
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -994,8 +1029,8 @@ class _ReminderFormState extends State<_ReminderForm> {
     super.initState();
     if (widget.editing != null) {
       _titleCtrl.text = widget.editing!.title;
-      _descCtrl.text  = widget.editing?.description ?? '';
-      _selectedTime   = widget.editing!.time;
+      _descCtrl.text = widget.editing?.description ?? '';
+      _selectedTime = widget.editing!.time;
       _selectedCategory = widget.editing!.category;
     }
   }
@@ -1062,8 +1097,10 @@ class _ReminderFormState extends State<_ReminderForm> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide:
-                    const BorderSide(color: AppTheme.primary, width: 1.5),
+                borderSide: const BorderSide(
+                  color: AppTheme.primary,
+                  width: 1.5,
+                ),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 14,
@@ -1092,8 +1129,10 @@ class _ReminderFormState extends State<_ReminderForm> {
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
-                borderSide:
-                    const BorderSide(color: AppTheme.primary, width: 1.5),
+                borderSide: const BorderSide(
+                  color: AppTheme.primary,
+                  width: 1.5,
+                ),
               ),
               contentPadding: const EdgeInsets.symmetric(
                 horizontal: 14,

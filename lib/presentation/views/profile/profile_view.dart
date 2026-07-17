@@ -8,14 +8,13 @@ class ProfileView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final profile = ref.watch(profileProvider).maybeWhen(
-      data: (p) => p,
-      orElse: () => null,
-    );
-    final name   = profile?.name ?? 'Usuario';
+    final profile = ref
+        .watch(profileProvider)
+        .maybeWhen(data: (p) => p, orElse: () => null);
+    final name = profile?.name ?? 'Usuario';
     final height = profile?.heightCm.toStringAsFixed(0) ?? '—';
     final weight = profile?.weightKg.toStringAsFixed(0) ?? '—';
-    final age    = profile?.ageYears.toString() ?? '—';
+    final age = profile?.ageYears.toString() ?? '—';
     final textTheme = Theme.of(context).textTheme;
 
     return SingleChildScrollView(
@@ -79,8 +78,8 @@ class ProfileView extends ConsumerWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Conecta tu wearable para ver el progreso semanal',
-                  style: textTheme.bodyMedium, 
-                  textAlign: TextAlign.center
+                  style: textTheme.bodyMedium,
+                  textAlign: TextAlign.center,
                 ),
               ],
             ),
