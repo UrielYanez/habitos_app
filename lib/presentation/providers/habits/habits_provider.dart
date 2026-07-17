@@ -4,6 +4,7 @@ import 'package:vita_habit/domain/entities/habit.dart';
 import 'package:vita_habit/infrastructure/datasource/supabase_habits_datasource_impl.dart';
 import 'package:vita_habit/infrastructure/repositories/habits_repository_impl.dart';
 import 'package:vita_habit/presentation/providers/auth/auth_provider.dart';
+import 'package:vita_habit/infrastructure/services/notifications_service.dart';
 
 // ── Repositorio ────────────────────────────────────────────────────────────
 final habitsRepositoryProvider = Provider((ref) {
@@ -59,6 +60,16 @@ class HabitsNotifier extends StateNotifier<AsyncValue<List<Habit>>> {
         scheduledTime: scheduledTime,
       );
       await _ref.read(habitsRepositoryProvider).saveHabit(habit);
+
+      if (scheduledTime != null) {
+        await NotificationsService.scheduleDailyNotification(
+          id: habit.name.hashCode, // Temporal para la notificacion local
+          title: '¡Hora de tu hábito!',
+          body: 'No olvides: $name',
+          scheduledDate: scheduledTime,
+        );
+      }
+
       await loadHabits(); // recarga para obtener el UUID real de BD
     } catch (e, st) {
       state = AsyncValue.error(e, st);
