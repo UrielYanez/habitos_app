@@ -56,7 +56,7 @@ class HabitMapper {
       isActive: json['is_active'] as bool? ?? false,
       streakDays: json['streak_days'] as int? ?? 0,
       scheduledTime: json['scheduled_time'] != null
-          ? DateTime.tryParse(json['scheduled_time'] as String)
+          ? DateTime.tryParse(json['scheduled_time'] as String)?.toLocal()
           : null,
     );
   }
@@ -70,7 +70,7 @@ class HabitMapper {
     'current_value': entity.currentValue,
     'is_active': entity.isActive,
     'streak_days': entity.streakDays,
-    'scheduled_time': entity.scheduledTime?.toIso8601String(),
+    'scheduled_time': entity.scheduledTime?.toUtc().toIso8601String(),
     'last_reset_date': _todayStr(),
   };
 

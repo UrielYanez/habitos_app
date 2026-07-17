@@ -1,10 +1,13 @@
+import 'dart:convert';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:vita_habit/domain/datasources/habits_datasource.dart';
 import 'package:vita_habit/domain/entities/habit.dart';
 import 'package:vita_habit/infrastructure/mappers/habit_mapper.dart';
 
 class SupabaseHabitsDatasourceImpl implements HabitsDatasource {
   final SupabaseClient _client;
+  final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
   SupabaseHabitsDatasourceImpl(this._client);
 
@@ -12,31 +15,45 @@ class SupabaseHabitsDatasourceImpl implements HabitsDatasource {
 
   @override
   Future<List<Habit>> getTodayHabits() async {
-    final rows = await _client
-        .from('habits')
-        .select()
-        .eq('user_id', _userId)
-        .order('created_at', ascending: true);
-
-    final habits = rows.map<Habit>(HabitMapper.fromSupabase).toList();
-
-    // Si algún hábito no fue reseteado hoy, resetear en BD
-    final today = _todayStr();
-    final toReset = rows.where(
-      (r) => (r['last_reset_date'] as String?) != today,
-    );
-    for (final row in toReset) {
-      await _client
+    try {
+      final rows = await _client
           .from('habits')
-          .update({
-            'current_value': 0,
-            'is_active': false,
-            'last_reset_date': today,
-          })
-          .eq('id', row['id'] as String);
-    }
+          .select()
+          .eq('user_id', _userId)
+          .order('created_at', ascending: true);
 
-    return habits;
+      // Cachear respuesta para soporte offline
+      await _storage.write(key: 'offline_habits', value: jsonEncode(rows));
+
+      final habits = rows.map<Habit>(HabitMapper.fromSupabase).toList();
+
+      // Si algún hábito no fue reseteado hoy, resetear en BD
+      final today = _todayStr();
+      final toReset = rows.where(
+        (r) => (r['last_reset_date'] as String?) != today,
+      );
+      for (final row in toReset) {
+        await _client
+            .from('habits')
+            .update({
+              'current_value': 0,
+              'is_active': false,
+              'last_reset_date': today,
+            })
+            .eq('id', row['id'] as String);
+      }
+
+      return habits;
+    } catch (e) {
+      // Intentar recuperar de caché si hay error de red
+      final cached = await _storage.read(key: 'offline_habits');
+      if (cached != null) {
+        final List<dynamic> decoded = jsonDecode(cached);
+        final rows = decoded.cast<Map<String, dynamic>>();
+        return rows.map<Habit>(HabitMapper.fromSupabase).toList();
+      }
+      rethrow;
+    }
   }
 
   @override

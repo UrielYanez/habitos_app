@@ -37,16 +37,18 @@ Future<void> main() async {
   runApp(const ProviderScope(child: HabitosApp()));
 }
 
-class HabitosApp extends StatelessWidget {
+class HabitosApp extends ConsumerWidget {
   const HabitosApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(appRouterProvider);
+
     return MaterialApp.router(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,
       theme: AppTheme().getTheme(),
-      routerConfig: appRouter,
+      routerConfig: router,
     );
   }
 }
