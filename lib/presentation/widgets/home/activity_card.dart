@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/domain/entities/habit.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
 
 class ActivityCard extends StatelessWidget {
   final Habit habit;

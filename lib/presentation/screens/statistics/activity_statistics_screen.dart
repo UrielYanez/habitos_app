@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/domain/entities/habit.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
-import 'package:habitos_app/presentation/widgets/home/activity_card.dart';
-import 'package:habitos_app/presentation/widgets/habits/edit_habit_sheet.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
+import 'package:vita_habit/presentation/widgets/home/activity_card.dart';
+import 'package:vita_habit/presentation/widgets/habits/edit_habit_sheet.dart';
 
 class ActivityStatisticsScreen extends ConsumerWidget {
   const ActivityStatisticsScreen({super.key});

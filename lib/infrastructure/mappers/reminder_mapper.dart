@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/domain/entities/reminder.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
 
 class ReminderMapper {
   // ── Desde Supabase ────────────────────────────────────────────────────────

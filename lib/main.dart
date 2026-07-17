@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:habitos_app/config/config.dart';
+import 'package:vita_habit/config/config.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

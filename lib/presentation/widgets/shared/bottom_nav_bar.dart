@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habitos_app/config/config.dart';
+import 'package:vita_habit/config/config.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;

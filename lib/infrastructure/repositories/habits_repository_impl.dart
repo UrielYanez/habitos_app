@@ -1,6 +1,6 @@
-import 'package:habitos_app/domain/datasources/habits_datasource.dart';
-import 'package:habitos_app/domain/entities/habit.dart';
-import 'package:habitos_app/domain/repositories/habits_repository.dart';
+import 'package:vita_habit/domain/datasources/habits_datasource.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
+import 'package:vita_habit/domain/repositories/habits_repository.dart';
 
 class HabitsRepositoryImpl implements HabitsRepository {
   final HabitsDatasource datasource;

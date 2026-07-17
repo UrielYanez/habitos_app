@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habitos_app/config/config.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
-import 'package:habitos_app/presentation/widgets/widgets.dart';
+import 'package:vita_habit/config/config.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
+import 'package:vita_habit/presentation/widgets/widgets.dart';
 
 
 class HomeView extends ConsumerStatefulWidget {

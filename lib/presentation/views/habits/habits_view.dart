@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
-import 'package:habitos_app/presentation/widgets/widgets.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
+import 'package:vita_habit/presentation/widgets/widgets.dart';
 
 class HabitsView extends ConsumerWidget {
   const HabitsView({super.key});

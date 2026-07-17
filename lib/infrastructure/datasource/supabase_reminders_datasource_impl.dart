@@ -1,7 +1,7 @@
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:habitos_app/domain/datasources/reminders_datasource.dart';
-import 'package:habitos_app/domain/entities/reminder.dart';
-import 'package:habitos_app/infrastructure/mappers/reminder_mapper.dart';
+import 'package:vita_habit/domain/datasources/reminders_datasource.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
+import 'package:vita_habit/infrastructure/mappers/reminder_mapper.dart';
 
 class SupabaseRemindersDatasourceImpl implements RemindersDatasource {
   final SupabaseClient _client;

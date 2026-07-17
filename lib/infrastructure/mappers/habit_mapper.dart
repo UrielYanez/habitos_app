@@ -1,5 +1,5 @@
-import 'package:habitos_app/domain/entities/habit.dart';
-import 'package:habitos_app/infrastructure/models/habit_model.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
+import 'package:vita_habit/infrastructure/models/habit_model.dart';
 
 class HabitMapper {
   // ── Desde modelo local (en memoria) ──────────────────────────────────────

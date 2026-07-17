@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:habitos_app/domain/entities/user_profile.dart';
-import 'package:habitos_app/presentation/providers/auth/auth_provider.dart';
+import 'package:vita_habit/domain/entities/user_profile.dart';
+import 'package:vita_habit/presentation/providers/auth/auth_provider.dart';
 
 class ProfileNotifier extends StateNotifier<AsyncValue<UserProfile?>> {
   ProfileNotifier(this._client) : super(const AsyncValue.loading()) {

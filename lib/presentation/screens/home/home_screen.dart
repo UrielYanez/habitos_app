@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/presentation/views/home/home_view.dart';
-import 'package:habitos_app/presentation/widgets/shared/bottom_nav_bar.dart';
-import 'package:habitos_app/presentation/widgets/habits/add_habit_sheet.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/presentation/views/home/home_view.dart';
+import 'package:vita_habit/presentation/widgets/shared/bottom_nav_bar.dart';
+import 'package:vita_habit/presentation/widgets/habits/add_habit_sheet.dart';
 
 
 class HomeScreen extends StatelessWidget {

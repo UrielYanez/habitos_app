@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/presentation/views/calendar/calendar_view.dart';
-import 'package:habitos_app/presentation/widgets/shared/bottom_nav_bar.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/presentation/views/calendar/calendar_view.dart';
+import 'package:vita_habit/presentation/widgets/shared/bottom_nav_bar.dart';
 
 class CalendarScreen extends StatelessWidget {
   const CalendarScreen({super.key});

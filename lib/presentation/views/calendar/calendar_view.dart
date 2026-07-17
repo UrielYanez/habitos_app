@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
-import 'package:habitos_app/domain/entities/reminder.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
 
 class CalendarView extends ConsumerStatefulWidget {
   const CalendarView({super.key});

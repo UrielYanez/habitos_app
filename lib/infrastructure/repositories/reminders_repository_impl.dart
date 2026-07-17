@@ -1,6 +1,6 @@
-import 'package:habitos_app/domain/datasources/reminders_datasource.dart';
-import 'package:habitos_app/domain/entities/reminder.dart';
-import 'package:habitos_app/domain/repositories/reminders_repository.dart';
+import 'package:vita_habit/domain/datasources/reminders_datasource.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
+import 'package:vita_habit/domain/repositories/reminders_repository.dart';
 
 class RemindersRepositoryImpl implements RemindersRepository {
   final RemindersDatasource datasource;

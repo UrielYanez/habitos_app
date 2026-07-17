@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
-import 'package:habitos_app/config/constants/app_constants.dart';
-import 'package:habitos_app/presentation/screens/screens.dart';
+import 'package:vita_habit/config/constants/app_constants.dart';
+import 'package:vita_habit/presentation/screens/screens.dart';
 
 final appRouter = GoRouter(
   initialLocation: AppConstants.splashRoute,

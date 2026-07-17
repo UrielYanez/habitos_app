@@ -1,7 +1,7 @@
-import 'package:habitos_app/domain/datasources/habits_datasource.dart';
-import 'package:habitos_app/domain/entities/habit.dart';
-import 'package:habitos_app/infrastructure/mappers/habit_mapper.dart';
-import 'package:habitos_app/infrastructure/models/habit_model.dart';
+import 'package:vita_habit/domain/datasources/habits_datasource.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
+import 'package:vita_habit/infrastructure/mappers/habit_mapper.dart';
+import 'package:vita_habit/infrastructure/models/habit_model.dart';
 
 /// Implementación local en memoria.
 /// Cuando se integre persistencia (Hive / SQLite) o una API,

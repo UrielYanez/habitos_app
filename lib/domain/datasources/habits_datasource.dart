@@ -1,4 +1,4 @@
-import 'package:habitos_app/domain/entities/habit.dart';
+import 'package:vita_habit/domain/entities/habit.dart';
 
 abstract class HabitsDatasource {
   Future<List<Habit>> getTodayHabits();

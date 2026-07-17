@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
 
 class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});

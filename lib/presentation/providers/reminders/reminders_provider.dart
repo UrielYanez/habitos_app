@@ -1,9 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
-import 'package:habitos_app/domain/entities/reminder.dart';
-import 'package:habitos_app/infrastructure/datasource/supabase_reminders_datasource_impl.dart';
-import 'package:habitos_app/infrastructure/repositories/reminders_repository_impl.dart';
-import 'package:habitos_app/presentation/providers/auth/auth_provider.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
+import 'package:vita_habit/infrastructure/datasource/supabase_reminders_datasource_impl.dart';
+import 'package:vita_habit/infrastructure/repositories/reminders_repository_impl.dart';
+import 'package:vita_habit/presentation/providers/auth/auth_provider.dart';
 
 // ── Repositorio ────────────────────────────────────────────────────────────
 final remindersRepositoryProvider = Provider((ref) {

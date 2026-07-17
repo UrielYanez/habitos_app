@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habitos_app/config/theme/app_theme.dart';
+import 'package:vita_habit/config/theme/app_theme.dart';
 
 class StreakBanner extends StatelessWidget {
   final int streakDays;

@@ -1,4 +1,4 @@
-import 'package:habitos_app/domain/entities/reminder.dart';
+import 'package:vita_habit/domain/entities/reminder.dart';
 
 abstract class RemindersRepository {
   Future<List<Reminder>> getAll();

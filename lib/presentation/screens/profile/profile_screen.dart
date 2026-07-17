@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:habitos_app/config/config.dart';
-import 'package:habitos_app/domain/entities/user_profile.dart';
-import 'package:habitos_app/presentation/providers/providers.dart';
-import 'package:habitos_app/presentation/views/profile/profile_view.dart';
-import 'package:habitos_app/presentation/widgets/shared/bottom_nav_bar.dart';
+import 'package:vita_habit/config/config.dart';
+import 'package:vita_habit/domain/entities/user_profile.dart';
+import 'package:vita_habit/presentation/providers/providers.dart';
+import 'package:vita_habit/presentation/views/profile/profile_view.dart';
+import 'package:vita_habit/presentation/widgets/shared/bottom_nav_bar.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
