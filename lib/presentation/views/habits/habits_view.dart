@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:vita_habit/config/theme/app_theme.dart';
+import 'package:vita_habit/presentation/widgets/widgets.dart';
 import 'package:vita_habit/presentation/providers/providers.dart';
 import 'package:vita_habit/presentation/widgets/widgets.dart';
 

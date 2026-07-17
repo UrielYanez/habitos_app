@@ -24,10 +24,7 @@ class _HomeViewState extends ConsumerState<HomeView> {
     final streak = ref.watch(activeStreakProvider);
     final nextHabit = ref.watch(nextHabitProvider);
     final textTheme = Theme.of(context).textTheme;
-    final profile = ref.watch(profileProvider).maybeWhen(
-      data: (p) => p,
-      orElse: () => null,
-    );
+
 
     return RefreshIndicator(
       onRefresh: () async => ref.read(habitsProvider.notifier).loadHabits(),

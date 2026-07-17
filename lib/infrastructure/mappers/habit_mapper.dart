@@ -1,5 +1,6 @@
 import 'package:vita_habit/domain/entities/habit.dart';
 import 'package:vita_habit/infrastructure/models/habit_model.dart';
+import 'package:vita_habit/infrastructure/utils/sanitizer.dart';
 
 class HabitMapper {
   // ── Desde modelo local (en memoria) ──────────────────────────────────────
@@ -62,7 +63,7 @@ class HabitMapper {
 
   static Map<String, dynamic> toSupabase(Habit entity, String userId) => {
         'user_id': userId,
-        'name': entity.name,
+        'name': Sanitizer.escapeHtml(entity.name),
         'category': entity.category.name,
         'goal_value': entity.goalValue,
         'unit': entity.unit.name,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vita_habit/domain/entities/reminder.dart';
+import 'package:vita_habit/infrastructure/utils/sanitizer.dart';
 
 class ReminderMapper {
   // ── Desde Supabase ────────────────────────────────────────────────────────
@@ -35,12 +36,12 @@ class ReminderMapper {
 
     return {
       'user_id': userId,
-      'title': r.title,
+      'title': Sanitizer.escapeHtml(r.title),
       'date': '${r.date.year}-'
           '${r.date.month.toString().padLeft(2, '0')}-'
           '${r.date.day.toString().padLeft(2, '0')}',
       'time_of_day': timeStr,
-      'description': r.description,
+      'description': r.description != null ? Sanitizer.escapeHtml(r.description!) : null,
       'category': r.category.name,
     };
   }

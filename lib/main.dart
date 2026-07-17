@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:vita_habit/config/config.dart';
+import 'package:vita_habit/infrastructure/datasource/secure_local_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,6 +10,9 @@ Future<void> main() async {
   await Supabase.initialize(
     url: SupabaseConstants.url,
     publishableKey: SupabaseConstants.publishableKey,
+    authOptions: FlutterAuthClientOptions(
+      localStorage: SecureLocalStorage(),
+    ),
   );
 
   debugPrint('Supabase inicializado: ${Supabase.instance.client.rest.url}');
