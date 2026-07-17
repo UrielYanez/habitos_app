@@ -1,6 +1,6 @@
 class AppConstants {
   // App Info
-  static const String appName = 'HabitFlow';
+  static const String appName = 'VitaHabit';
   static const String appTagline = 'Tu rutina, tu progreso';
 
   // Rutas (coinciden con go_router)

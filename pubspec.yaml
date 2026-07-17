@@ -1,4 +1,4 @@
-name: habitos_app
+name: vita_habit
 description: "Ecosistema de Control de Hábitos y Productividad - GIDS6091."
 publish_to: "none"
 version: 0.1.0+1
@@ -18,9 +18,20 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: ^0.13.1
 
 flutter:
   uses-material-design: true
   # assets:
   #   - assets/images/
   #   - assets/icons/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  web:
+    generate: true
+    image_path: "assets/icon/app_icon.png"
+    background_color: "#ffffff"
+    theme_color: "#ffffff"
